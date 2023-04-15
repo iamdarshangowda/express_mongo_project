@@ -7,37 +7,37 @@ const errorHandler = (err, req, res, next) => {
       res.json({
         title: "Not Found",
         message: err.message,
-        starckTrace: err.starckTrace,
+        starckTrace: err.stack,
       });
-
+      break;
     case constants.VALIDATION_ERROR:
       res.json({
         title: "Validation Error",
         message: err.message,
-        starckTrace: err.starckTrace,
+        starckTrace: err.stack,
       });
-
+      break;
     case constants.UNAUTHORISED:
       res.json({
         title: "Unauthorised Error",
         message: err.message,
-        starckTrace: err.starckTrace,
+        starckTrace: err.stack,
       });
-
+      break;
     case constants.FORBIDDEN:
       res.json({
         title: "Forbidden Error",
         message: err.message,
-        starckTrace: err.starckTrace,
+        starckTrace: err.stack,
       });
-
+      break;
     case constants.SERVER_ERROR:
       res.json({
-        title: "Forbidden Error",
+        title: "Server Error",
         message: err.message,
-        starckTrace: err.starckTrace,
+        starckTrace: err.stack,
       });
-
+      break;
     default:
       break;
   }
