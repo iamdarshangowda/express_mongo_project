@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
+//@desc Register a user
+//@route POST /api/users/register
+//@access public
 const registerUser = asyncHandler(async (req, res) => {
   const { username, password, email } = req.body;
 
@@ -29,13 +32,17 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    res.status(201).json(user);
+    res.status(201).json({ _id: user.id, email: user.email });
   } else {
     res.status(400);
     throw new Error("User data not valid");
   }
+  res.json({ message: "Register the user" });
 });
 
+//@desc Login user
+//@route POST /api/users/login
+//@access public
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -56,17 +63,20 @@ const loginUser = asyncHandler(async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "50m" }
     );
-    res.json({ accessToken });
+    res.status(200).json({ accessToken });
   } else {
     res.status(401);
     throw new Error("Email or Password is not valid");
   }
 });
 
+//@desc Current user info
+//@route POST /api/users/current
+//@access private
 const currentUser = asyncHandler(async (req, res) => {
-  res.json({ message: "Current user" });
+  res.json(req.user);
 });
 
 module.exports = { registerUser, loginUser, currentUser };
